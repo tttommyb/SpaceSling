@@ -24,7 +24,7 @@ public class Swinging : MonoBehaviour
     int[,] quads_gen = new int[17, 17];
     int swing_side = 1; //-1 = left 1 = right determines which side of the velocity to swing from
     float target_ortho_size = 10.0f;
-
+    public Vector3 direction = Vector3.zero;
     // Start is called before the first frame update
     void Start()
     {
@@ -117,7 +117,7 @@ public class Swinging : MonoBehaviour
 
         //Asteroid avoidance !!!!!IMPORTANT!!!!!!
         Collider2D[] asteroids = Physics2D.OverlapCircleAll(transform.position, 20.0f, LayerMask.GetMask("Asteroid"));
-        Vector3 direction = Vector3.Normalize(rb.velocity);
+        direction = Vector3.Normalize(rb.velocity);
         foreach (Collider2D collider in asteroids)
         {
             GameObject asteroid = collider.gameObject;
