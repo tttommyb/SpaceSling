@@ -16,6 +16,7 @@ public class Swinging : MonoBehaviour
     float grapple_length;
     float initial_speed; //The velocity when the player first connects to an asteroid
     float current_speed;
+    [SerializeField] float asteroid_break_speed = 10;
     [SerializeField] float max_speed = 25;
     [SerializeField] GameObject asteroid_prefab;
     int[] current_quad = new int[]{ 0, 0 };
@@ -25,10 +26,15 @@ public class Swinging : MonoBehaviour
     int swing_side = 1; //-1 = left 1 = right determines which side of the velocity to swing from
     float target_ortho_size = 10.0f;
     public Vector3 direction = Vector3.zero;
+
+    int player_layer = 0;
+    int asteroid_layer = 0;
     // Start is called before the first frame update
     void Start()
     {
-       
+        player_layer = LayerMask.NameToLayer("Player");
+        asteroid_layer = LayerMask.NameToLayer("Asteroid");
+
         for(int x = 0; x < 17; x++)
         {
             for (int y = 0; y < 17; y++)
@@ -51,7 +57,12 @@ public class Swinging : MonoBehaviour
     {
         LookAtCursor();
 
-        Debug.Log(current_speed);
+        bool should_pass_through = current_speed > asteroid_break_speed;
+
+        Physics2D.IgnoreLayerCollision(player_layer, asteroid_layer, should_pass_through);
+    
+
+    Debug.Log(current_speed);
 
         Camera.main.transform.position = new Vector3(transform.position.x , transform.position.y, -10);
 
