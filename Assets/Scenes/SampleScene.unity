@@ -394,6 +394,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3229472455414033675, guid: 7efc4e10d9639b44bb86c3f475a857cd, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3229472455414033675, guid: 7efc4e10d9639b44bb86c3f475a857cd, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 3832783727737557480, guid: 7efc4e10d9639b44bb86c3f475a857cd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -477,6 +485,14 @@ PrefabInstance:
     - target: {fileID: 6459392129566366434, guid: 7efc4e10d9639b44bb86c3f475a857cd, type: 3}
       propertyPath: m_AutoConfigureDistance
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8640153945509110078, guid: 7efc4e10d9639b44bb86c3f475a857cd, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8640153945509110078, guid: 7efc4e10d9639b44bb86c3f475a857cd, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8700527201244964239, guid: 7efc4e10d9639b44bb86c3f475a857cd, type: 3}

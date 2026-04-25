@@ -32,8 +32,8 @@ public class GenAsteroid : MonoBehaviour
             asteroid_points3.Add(point_pos * displacement);
 
         }
-        asteroid_points2.Add(asteroid_points2[0]);        
-        asteroid_points3.Add(asteroid_points3[0]);        
+        //asteroid_points2.Add(asteroid_points2[0]);        
+        //asteroid_points3.Add(asteroid_points3[0]);        
 
         lr.SetPositions(asteroid_points3.ToArray());
         ec.points = asteroid_points2.ToArray();

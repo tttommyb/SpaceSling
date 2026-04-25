@@ -28,7 +28,7 @@ public class Swinging : MonoBehaviour
     public Vector3 direction = Vector3.zero;
 
     int player_layer = 0;
-    int asteroid_layer = 0;
+    int asteroid_layer = 7;
     // Start is called before the first frame update
     void Start()
     {
@@ -58,7 +58,6 @@ public class Swinging : MonoBehaviour
         LookAtCursor();
 
         bool should_pass_through = current_speed > asteroid_break_speed;
-
         Physics2D.IgnoreLayerCollision(player_layer, asteroid_layer, should_pass_through);
     
 
