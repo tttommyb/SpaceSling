@@ -22,7 +22,7 @@ public class Swinging : MonoBehaviour
     int[] current_quad = new int[]{ 0, 0 };
     int[] previous_quad;
     bool changed_quad = false;
-    int[,] quads_gen = new int[17, 17];
+    int[,] quads_gen = new int[200, 200];
     int swing_side = 1; //-1 = left 1 = right determines which side of the velocity to swing from
     float target_ortho_size = 10.0f;
     public Vector3 direction = Vector3.zero;
