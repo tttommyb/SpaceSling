@@ -61,7 +61,7 @@ public class Swinging : MonoBehaviour
         Physics2D.IgnoreLayerCollision(player_layer, asteroid_layer, should_pass_through);
     
 
-    Debug.Log(current_speed);
+   
 
         Camera.main.transform.position = new Vector3(transform.position.x , transform.position.y, -10);
 
