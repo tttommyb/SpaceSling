@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Burst.Intrinsics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -40,6 +41,8 @@ public class Break : MonoBehaviour
         Rigidbody2D rb = other.GetComponent<Rigidbody2D>();
         if (rb == null) return;
 
+        
+
         Vector2 point = other.transform.position;
         Vector2 dir = rb.velocity.normalized;
         if (dir == Vector2.zero) return;
@@ -48,24 +51,103 @@ public class Break : MonoBehaviour
 
         // 1. ENTRY POINT: Start a unit back, shoot forward
         Vector2 entry_origin = point - (dir * 5.0f);
-        Vector2 hit = GetSpecificHit(entry_origin, dir, 15.0f, GetComponent<EdgeCollider2D>());
-        debugPointsC.Add(hit);
-        Debug.Log("ENTRY: " + debugPointsC[0]);
+        Vector2 entry_hit = GetSpecificHit(entry_origin, dir, 15.0f, GetComponent<EdgeCollider2D>());
+        debugPointsC.Add(entry_hit);
 
         // 2. EXIT POINT: Start 5 units ahead, shoot backward
         Vector2 exit_origin = point + (dir * 10.0f);
         Debug.DrawRay(exit_origin, -dir * 15.0f, unique_col, 200.0f);
-        hit = GetSpecificHit(exit_origin, -dir, 15.0f, GetComponent<EdgeCollider2D>());
-        debugPointsC.Add(hit);
-        Debug.Log("EXIT:" + debugPointsC[1]);
+        Vector2 exit_hit = GetSpecificHit(exit_origin, -dir, 15.0f, GetComponent<EdgeCollider2D>());
+        debugPointsC.Add(exit_hit);
 
-       
+        Vector3[] points = new Vector3[lr.positionCount];
+        lr.GetPositions(points);
 
+        List<Vector3> asteroid_A_points = new List<Vector3>();
+        List<Vector3> asteroid_B_points = new List<Vector3>();
+
+        Vector2 local_entry = transform.InverseTransformPoint(entry_hit);
+        Vector2 local_exit = transform.InverseTransformPoint(exit_hit);
+
+        for (int i = 0; i < lr.positionCount; ++i) 
+        {
+            
+            Vector2 current = points[i];
+            Vector2 next = points[(i + 1) % points.Length]; // The next point in the loop
+
+            // Side check for the CURRENT point
+            float side = (local_entry.x - local_exit.x) * (current.y - local_exit.y) -
+                         (local_entry.y - local_exit.y) * (current.x - local_exit.x);
+
+            if (side >= 0) asteroid_A_points.Add(current);
+            else asteroid_B_points.Add(current);
+
+            // CHECK FOR CROSSING: Did this specific segment (current to next) contain a hit?
+            if (IsPointOnSegment(local_entry, current, next))
+            {
+                asteroid_A_points.Add(local_entry);
+                asteroid_B_points.Add(local_entry);
+            }
+
+            if (IsPointOnSegment(local_exit, current, next))
+            {
+                asteroid_A_points.Add(local_exit);
+                asteroid_B_points.Add(local_exit);
+            }
+
+        }
 
         hit_pos = entry_origin;
         intercept_pos = exit_origin;
 
+        lr.positionCount = asteroid_A_points.Count;
+        lr.SetPositions(asteroid_A_points.ToArray());
+    
         GetComponent<EdgeCollider2D>().enabled = false;
+
+        lr.positionCount = asteroid_A_points.Count;
+        lr.SetPositions(asteroid_A_points.ToArray());
+
+        // 2. Create the second half (Side B)
+        if (asteroid_B_points.Count > 0)
+        {
+            // Instantiate at the SAME position and rotation as the original
+            GameObject other_side = Instantiate(this.gameObject, transform.position, transform.rotation);
+
+            // IMPORTANT: If 'this.gameObject' had this script, the new one does too. 
+            // Destroy the script on the new one so it doesn't try to 'break' again immediately.
+            //Destroy(other_side.GetComponent<Break>());
+
+            LineRenderer other_lr = other_side.GetComponent<LineRenderer>();
+            other_lr.positionCount = asteroid_B_points.Count;
+            other_lr.SetPositions(asteroid_B_points.ToArray());
+            //other_lr.material.color = Color.blue;
+
+            Rigidbody2D b_rb = other_side.GetComponent<Rigidbody2D>();
+            Rigidbody2D a_rb = GetComponent<Rigidbody2D>();
+
+            Vector2 player_norm = new Vector2(-dir.y, dir.x);
+            if (a_rb != null)
+            {
+                a_rb.bodyType = RigidbodyType2D.Dynamic;
+                // Push it away from the center of the cut
+                a_rb.AddRelativeForce(player_norm * 10f, ForceMode2D.Impulse);
+            }
+            if (b_rb != null)
+            {
+                b_rb.bodyType = RigidbodyType2D.Dynamic;
+                // Push it away from the center of the cut
+                b_rb.AddRelativeForce(player_norm * -10f, ForceMode2D.Impulse);
+                rb.AddRelativeForce(-rb.velocity.normalized * 2f, ForceMode2D.Impulse);
+            }
+
+            // Optional: Update the EdgeCollider2D points for both so they can be hit again
+        }
+
+        // Disable the original collider so we don't trigger multiple times in one frame
+        GetComponent<EdgeCollider2D>().enabled = false;
+        Destroy(this); // Remove this script from the original part
+
     }
 
     private Vector2 GetSpecificHit(Vector2 origin, Vector2 direction, float distance, Collider2D target)
