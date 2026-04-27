@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.Burst.Intrinsics;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 
@@ -19,7 +20,10 @@ public class Break : MonoBehaviour
     Color unique_col;
 
    Vector3 hit_pos = Vector3.zero;
-    Vector3 intercept_pos = Vector3.zero;
+   Vector3 intercept_pos = Vector3.zero;
+
+    [SerializeField] GameObject graze_particle_system;
+
 
 
     // Start is called before the first frame update
@@ -38,8 +42,11 @@ public class Break : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.gameObject.layer != LayerMask.NameToLayer("Player")) return;
+
         Rigidbody2D rb = other.GetComponent<Rigidbody2D>();
         if (rb == null) return;
+
 
         
 
@@ -109,7 +116,7 @@ public class Break : MonoBehaviour
         lr.SetPositions(asteroid_A_points.ToArray());
 
         // 2. Create the second half (Side B)
-        if (asteroid_B_points.Count > 0)
+        if (asteroid_B_points.Count > 2)
         {
             // Instantiate at the SAME position and rotation as the original
             GameObject other_side = Instantiate(this.gameObject, transform.position, transform.rotation);
@@ -131,18 +138,19 @@ public class Break : MonoBehaviour
             {
                 a_rb.bodyType = RigidbodyType2D.Dynamic;
                 // Push it away from the center of the cut
-                a_rb.AddRelativeForce(player_norm * 10f, ForceMode2D.Impulse);
+                a_rb.AddForce(player_norm * -10f, ForceMode2D.Impulse);
             }
             if (b_rb != null)
             {
                 b_rb.bodyType = RigidbodyType2D.Dynamic;
                 // Push it away from the center of the cut
-                b_rb.AddRelativeForce(player_norm * -10f, ForceMode2D.Impulse);
-                rb.AddRelativeForce(-rb.velocity.normalized * 2f, ForceMode2D.Impulse);
+                b_rb.AddForce(player_norm * 10f, ForceMode2D.Impulse);
+                rb.AddRelativeForce(Vector2.up * -10.0f, ForceMode2D.Impulse);
             }
 
             // Optional: Update the EdgeCollider2D points for both so they can be hit again
         }
+        else { Instantiate(graze_particle_system, entry_hit, Quaternion.identity); }
 
         // Disable the original collider so we don't trigger multiple times in one frame
         GetComponent<EdgeCollider2D>().enabled = false;

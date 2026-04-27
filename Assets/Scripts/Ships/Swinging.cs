@@ -126,14 +126,16 @@ public class Swinging : MonoBehaviour
         lr.SetPosition(0, transform.position);
 
         //Asteroid avoidance !!!!!IMPORTANT!!!!!!
-        Collider2D[] asteroids = Physics2D.OverlapCircleAll(transform.position, 20.0f, LayerMask.GetMask("Asteroid"));
+        Collider2D[] asteroids = Physics2D.OverlapCircleAll(transform.position, 3.0f, LayerMask.GetMask("Asteroid"));
         direction = Vector3.Normalize(rb.velocity);
         foreach (Collider2D collider in asteroids)
         {
+            
             GameObject asteroid = collider.gameObject;
             Vector3 asteroid_dir = Vector3.Normalize(transform.position - asteroid.gameObject.transform.position);
             if (Vector3.Dot(direction, asteroid_dir) > 0)
             {
+                //target_ortho_size /= 2.0f;
                 continue;
             }
         }

@@ -252,3 +252,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9e9bc97356def94ea85db9d0c04da0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  graze_particle_system: {fileID: 945598909945356745, guid: bdbdb3a6330cba3469d141176ee4c4f7, type: 3}

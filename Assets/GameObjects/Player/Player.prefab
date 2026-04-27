@@ -76,8 +76,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26d0bce77edc4304983962497a2d1cd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  asteroid_break_speed: 10
   max_speed: 25
-  asteroid: {fileID: 0}
+  asteroid_prefab: {fileID: 0}
+  direction: {x: 0, y: 0, z: 0}
 --- !u!232 &6459392129566366434
 DistanceJoint2D:
   m_ObjectHideFlags: 0
@@ -266,6 +268,7 @@ GameObject:
   - component: {fileID: 6161740817403888489}
   - component: {fileID: 4880875220518619199}
   - component: {fileID: 7538196032185513387}
+  - component: {fileID: 3877091342705437232}
   m_Layer: 0
   m_Name: Ship
   m_TagString: Untagged
@@ -450,3 +453,16 @@ LineRenderer:
   m_UseWorldSpace: 0
   m_Loop: 1
   m_ApplyActiveColorSpace: 1
+--- !u!114 &3877091342705437232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8640153945509110078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ff88da27752ad74db611a78cac2af9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bullet: {fileID: 6713503303640617386, guid: 4ea284c84ff8b6d49be85fad98004c0c, type: 3}
