@@ -39,13 +39,16 @@ public class Projectile : MonoBehaviour
             Debug.Log("HIT!");
         if (((1 << other.gameObject.layer) & target_layers) != 0)
         {
-
             Destroy(this.gameObject);
+            if(other.gameObject.layer == LayerMask.NameToLayer("Enemy")) 
+            {
+                Destroy(other.gameObject);
+            }
         }
     }
 
     public void Initialise(Vector2 starting_velocity) 
     {
-        GetComponent<Rigidbody2D>().velocity = starting_velocity + (Vector2.up * speed);
+        GetComponent<Rigidbody2D>().velocity = starting_velocity + (GetComponent<Rigidbody2D>().GetRelativeVector(Vector2.up) * speed);
     }
 }
