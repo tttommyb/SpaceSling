@@ -95,7 +95,10 @@ public class Swinging : MonoBehaviour
             attached_asteroid = FindTargetAsteroid();
             initial_speed = Vector3.Magnitude(rb.velocity);
             lr.enabled = true;
-            lr.SetPosition(1, attached_asteroid.transform.position);
+            if(attached_asteroid != null) 
+            {
+                lr.SetPosition(1, attached_asteroid.transform.position);
+            }
 
         }
         if (Input.GetKeyUp(KeyCode.Mouse0))
@@ -156,7 +159,18 @@ public class Swinging : MonoBehaviour
     {
         Vector3 direction = Vector3.Normalize(rb.velocity);
 
-        Collider2D[] asteroids = Physics2D.OverlapCircleAll(transform.position, 50.0f, LayerMask.GetMask("Asteroid"));
+        float starting_radius = 30.0f;
+        Collider2D[] asteroids = new Collider2D[1];
+        for (int i = 0; i <= 100; i+= 5) 
+        {
+            asteroids = Physics2D.OverlapCircleAll(transform.position, starting_radius + i, LayerMask.GetMask("Asteroid"));
+            if(asteroids.Length > 0) 
+            {
+                break;
+            }
+            
+        }
+        Debug.DrawLine(transform.position, transform.position + (Vector3.right * 30.0f), Color.red, 1.0f);
         float smallest_dot = Mathf.Infinity;
         GameObject targeted_asteroid = null;
         foreach (Collider2D asteroid in asteroids)

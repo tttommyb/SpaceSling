@@ -3,13 +3,18 @@ Shader "Unlit/Player Bullet Pulse"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-        _Color ("Base Color", Color) = (1, 0.5, 0, 1) // Default Orange
+        _Color ("Base Color", Color) = (0, 0, 1, 1) // Default Blue
         _PulseSpeed ("Pulse Speed", Float) = 10.0
+        _Opacity ("Opacity", Range(0, 1)) = 1.0 //Default Opacity
+
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        Tags { "RenderType"="Transparent" "Queue"="Transparent" }
         LOD 100
+
+        Blend SrcAlpha OneMinusSrcAlpha
+        ZWrite Off
 
         Pass
         {
@@ -39,6 +44,7 @@ Shader "Unlit/Player Bullet Pulse"
             float4 _MainTex_ST;
             float4 _Color;
             float _PulseSpeed;
+            float _Opacity;
 
             v2f vert (appdata v)
             {
@@ -57,6 +63,7 @@ Shader "Unlit/Player Bullet Pulse"
                 float sharpPulse = pow(rawPulse, 8.0);
                 fixed4 baseCol = col * _Color;
                 fixed4 finalCol = lerp(baseCol, fixed4(1,1,1,1), sharpPulse);
+                finalCol.a = _Opacity;
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, finalCol);
                 return finalCol;

@@ -11,18 +11,30 @@ using UnityEngine;
 public class Break : MonoBehaviour
 {
 
-    LineRenderer lr;
-
+    //DEBUG
     List<Vector3> debugPointsA = new List<Vector3>();
     List<Vector3> debugPointsB = new List<Vector3>();
     List<Vector3> debugPointsC = new List<Vector3>();
+
+    LineRenderer lr;
 
     Color unique_col;
 
    Vector3 hit_pos = Vector3.zero;
    Vector3 intercept_pos = Vector3.zero;
 
+
+    bool split = false;
+    GameObject other_asteroid;
+
     [SerializeField] GameObject graze_particle_system;
+
+    [Header("Post-Split")]
+    [Tooltip("How long will it exist for after being split?")]
+    [SerializeField] float life_time = 10.0f;
+    float current_time = 0.0f;
+
+    private static readonly int opacity_id = Shader.PropertyToID("_Opacity");
 
 
 
@@ -31,13 +43,26 @@ public class Break : MonoBehaviour
     {
         lr = GetComponent<LineRenderer>();
         unique_col = new Color(Random.Range(0, 255) / 255.0f, Random.Range(0, 255) / 255.0f, Random.Range(0, 255) / 255.0f);
-
+        current_time = life_time;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (split) 
+        {
+            current_time -= Time.deltaTime;
+            lr.material.SetFloat(opacity_id, current_time / life_time);
 
+        }
+        if(current_time <= 0) 
+        {
+            if(other_asteroid != null)
+            {
+                Destroy(other_asteroid);
+            }
+            Destroy(this.gameObject);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -119,18 +144,18 @@ public class Break : MonoBehaviour
         if (asteroid_B_points.Count > 2)
         {
             // Instantiate at the SAME position and rotation as the original
-            GameObject other_side = Instantiate(this.gameObject, transform.position, transform.rotation);
+            other_asteroid = Instantiate(this.gameObject, transform.position, transform.rotation);
 
             // IMPORTANT: If 'this.gameObject' had this script, the new one does too. 
             // Destroy the script on the new one so it doesn't try to 'break' again immediately.
             //Destroy(other_side.GetComponent<Break>());
 
-            LineRenderer other_lr = other_side.GetComponent<LineRenderer>();
+            LineRenderer other_lr = other_asteroid.GetComponent<LineRenderer>();
             other_lr.positionCount = asteroid_B_points.Count;
             other_lr.SetPositions(asteroid_B_points.ToArray());
             //other_lr.material.color = Color.blue;
 
-            Rigidbody2D b_rb = other_side.GetComponent<Rigidbody2D>();
+            Rigidbody2D b_rb = other_asteroid.GetComponent<Rigidbody2D>();
             Rigidbody2D a_rb = GetComponent<Rigidbody2D>();
 
             Vector2 player_norm = new Vector2(-dir.y, dir.x);
@@ -145,16 +170,18 @@ public class Break : MonoBehaviour
                 b_rb.bodyType = RigidbodyType2D.Dynamic;
                 // Push it away from the center of the cut
                 b_rb.AddForce(player_norm * 10f, ForceMode2D.Impulse);
-                rb.AddRelativeForce(Vector2.up * -10.0f, ForceMode2D.Impulse);
+                //rb.AddRelativeForce(Vector2.up * -10.0f, ForceMode2D.Impulse);
             }
+
+            // Disable the original collider so we don't trigger multiple times in one frame
 
             // Optional: Update the EdgeCollider2D points for both so they can be hit again
         }
         else { Instantiate(graze_particle_system, entry_hit, Quaternion.identity); }
-
-        // Disable the original collider so we don't trigger multiple times in one frame
         GetComponent<EdgeCollider2D>().enabled = false;
-        Destroy(this); // Remove this script from the original part
+        split = true;
+
+     
 
     }
 

@@ -253,3 +253,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   graze_particle_system: {fileID: 945598909945356745, guid: bdbdb3a6330cba3469d141176ee4c4f7, type: 3}
+  life_time: 3
