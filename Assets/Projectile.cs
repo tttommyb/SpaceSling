@@ -5,8 +5,6 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
 
-    [Tooltip("Which layers should this bullet collide with?")]
-    [SerializeField] private LayerMask target_layers;
 
     [SerializeField] private float speed = 50.0f;
     [Tooltip("How long will it exist for?")]
@@ -14,13 +12,15 @@ public class Projectile : MonoBehaviour
     float current_time = 0.0f;
     SpriteRenderer sr;
     private static readonly int opacity_id = Shader.PropertyToID("_Opacity");
+    private static readonly int color_id = Shader.PropertyToID("_Color");
+    private LayerMask target_layers;
+    private LayerMask obstructor_layers;
 
 
     // Start is called before the first frame update
     void Start()
     {
         current_time = life_time;
-        sr = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -37,18 +37,23 @@ public class Projectile : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
             Debug.Log("HIT!");
-        if (((1 << other.gameObject.layer) & target_layers) != 0)
+        if (((1 << other.gameObject.layer) & obstructor_layers) != 0)
         {
             Destroy(this.gameObject);
-            if(other.gameObject.layer == LayerMask.NameToLayer("Enemy")) 
+            if (((1 << other.gameObject.layer) & target_layers) != 0)
             {
-                Destroy(other.gameObject);
+                other.gameObject.SetActive(false);
             }
         }
     }
 
-    public void Initialise(Vector2 starting_velocity) 
+    public void Initialise(Vector2 starting_velocity, LayerMask targets, LayerMask obstructors, Color color) 
     {
+        sr = GetComponent<SpriteRenderer>();
         GetComponent<Rigidbody2D>().velocity = starting_velocity + (GetComponent<Rigidbody2D>().GetRelativeVector(Vector2.up) * speed);
+        target_layers = targets;
+        obstructor_layers = obstructors;
+        sr.material.SetColor(color_id, color);
+        
     }
 }

@@ -143,17 +143,13 @@ public class Break : MonoBehaviour
         // 2. Create the second half (Side B)
         if (asteroid_B_points.Count > 2)
         {
+            GetComponent<EdgeCollider2D>().enabled = false;
             // Instantiate at the SAME position and rotation as the original
             other_asteroid = Instantiate(this.gameObject, transform.position, transform.rotation);
-
-            // IMPORTANT: If 'this.gameObject' had this script, the new one does too. 
-            // Destroy the script on the new one so it doesn't try to 'break' again immediately.
-            //Destroy(other_side.GetComponent<Break>());
 
             LineRenderer other_lr = other_asteroid.GetComponent<LineRenderer>();
             other_lr.positionCount = asteroid_B_points.Count;
             other_lr.SetPositions(asteroid_B_points.ToArray());
-            //other_lr.material.color = Color.blue;
 
             Rigidbody2D b_rb = other_asteroid.GetComponent<Rigidbody2D>();
             Rigidbody2D a_rb = GetComponent<Rigidbody2D>();
@@ -173,12 +169,9 @@ public class Break : MonoBehaviour
                 //rb.AddRelativeForce(Vector2.up * -10.0f, ForceMode2D.Impulse);
             }
 
-            // Disable the original collider so we don't trigger multiple times in one frame
-
-            // Optional: Update the EdgeCollider2D points for both so they can be hit again
+            
         }
         else { Instantiate(graze_particle_system, entry_hit, Quaternion.identity); }
-        GetComponent<EdgeCollider2D>().enabled = false;
         split = true;
 
      
