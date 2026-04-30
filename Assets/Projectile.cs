@@ -42,7 +42,7 @@ public class Projectile : MonoBehaviour
             Destroy(this.gameObject);
             if (((1 << other.gameObject.layer) & target_layers) != 0)
             {
-                other.gameObject.SetActive(false);
+                other.gameObject.GetComponent<Health>().RemoveLife();
             }
         }
     }

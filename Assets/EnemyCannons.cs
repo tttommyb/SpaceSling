@@ -30,6 +30,7 @@ public class EnemyCannons : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!target.activeSelf) return;
         if(reload_timer > 0) 
         {
             reload_timer -= Time.deltaTime;
@@ -41,7 +42,7 @@ public class EnemyCannons : MonoBehaviour
             Vector2 target_pos = target.transform.position;
             Vector2 displacement = target_pos - (Vector2)transform.position;
             float dot = Vector2.Dot(velocity.normalized, displacement.normalized);
-            if (dot > 0.96f)
+            if (dot > 0.99f && displacement.magnitude <= 40.0f)
             {
                 projectile = Instantiate(projectile_prefab, transform.position, transform.rotation).GetComponent<Projectile>();
                 projectile.Initialise(rb.velocity, LayerMask.GetMask("Player"), LayerMask.GetMask("Player", "Asteroid"), Color.yellow);

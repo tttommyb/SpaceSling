@@ -171,7 +171,17 @@ public class Break : MonoBehaviour
 
             
         }
-        else { Instantiate(graze_particle_system, entry_hit, Quaternion.identity); }
+        else 
+        { 
+            if(entry_hit != Vector2.zero) 
+            {
+                Instantiate(graze_particle_system, entry_hit, Quaternion.identity); 
+            }
+            else 
+            {
+                Instantiate(graze_particle_system, other.transform.position, Quaternion.identity);
+            }
+        }
         split = true;
 
      

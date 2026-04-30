@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 162595930636115798}
   - component: {fileID: 980969001262764025}
   - component: {fileID: 631938499111899479}
+  - component: {fileID: 8677615270508936305}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -364,3 +365,19 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 5
+--- !u!114 &8677615270508936305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3229472455414033675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cddf7df64e086e84f8ea936210b8cecd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lives_icons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}

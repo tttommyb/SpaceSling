@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
+
 
 public class Swinging : MonoBehaviour
 {
@@ -27,6 +29,8 @@ public class Swinging : MonoBehaviour
     int swing_side = 1; //-1 = left 1 = right determines which side of the velocity to swing from
     float target_ortho_size = 10.0f;
     public Vector3 direction = Vector3.zero;
+
+
 
     int player_layer = 0;
     int asteroid_layer = 7;
@@ -237,7 +241,6 @@ public class Swinging : MonoBehaviour
         }
         quads_gen[quad_x + 8, quad_y + 8] = 1;
     }
-
 
 
 }
