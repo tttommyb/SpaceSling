@@ -47,6 +47,7 @@ public class EnemyCannons : MonoBehaviour
                 projectile = Instantiate(projectile_prefab, transform.position, transform.rotation).GetComponent<Projectile>();
                 projectile.Initialise(rb.velocity, LayerMask.GetMask("Player"), LayerMask.GetMask("Player", "Asteroid"), Color.yellow);
                 Debug.Log("FIRE!");
+                GetComponent<AudioSource>().Play();
             }
         }
        

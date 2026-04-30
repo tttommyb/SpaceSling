@@ -43,6 +43,8 @@ public class Shoot : MonoBehaviour
 
                 projectile = Instantiate(bullet, transform.position, rotation).GetComponent<Projectile>();
                 projectile.Initialise(rb.velocity, LayerMask.GetMask("Enemy"), LayerMask.GetMask("Enemy", "Asteroid"), Color.blue);
+                GetComponent<AudioSource>().Play();
+
             }
         }
     }
