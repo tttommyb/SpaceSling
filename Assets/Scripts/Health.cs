@@ -12,10 +12,12 @@ public class Health : MonoBehaviour
     [SerializeField] GameObject explosion;
     [SerializeField] int max_lives = 3;
     int lives;
+    SpriteRenderer sr;
     // Start is called before the first frame update
     void Start()
     {
         lives = max_lives;
+        sr = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -27,6 +29,7 @@ public class Health : MonoBehaviour
     public void RemoveLife()
     {
         lives--;
+        
         if (lives == 0)
         {
             if (gameObject.CompareTag("Player") || gameObject.layer == LayerMask.NameToLayer("Player"))

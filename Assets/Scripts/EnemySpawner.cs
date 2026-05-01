@@ -1,15 +1,19 @@
+
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] GameObject enemy_prefab;
+    [SerializeField] List<GameObject> enemy_prefabs = new List<GameObject>();
     [SerializeField] int enemy_count = 1;
     [SerializeField] TMP_Text stats_text;
     [SerializeField] TMP_Text progress_text;
     [SerializeField] Scrollbar progress_bar;
     [SerializeField] GameObject player;
+    [SerializeField] DynamicEnemyUI enemyUI;
 
     int kills = 0;
     int wave = 1;
@@ -22,6 +26,7 @@ public class EnemySpawner : MonoBehaviour
 
     void Update()
     {
+        
         int current_inactive = 0;
         foreach (Transform t in transform)
         {
@@ -70,7 +75,7 @@ public class EnemySpawner : MonoBehaviour
         }
 
         // Add the extra enemy for the new wave
-        GameObject newEnemy = Instantiate(enemy_prefab, player.transform.position + new Vector3(10.0f * i, 100.0f), Quaternion.identity);
+        GameObject newEnemy = Instantiate(enemy_prefabs[Random.Range(0, enemy_prefabs.Count)], player.transform.position + new Vector3(10.0f * i, 100.0f), Quaternion.identity);
         newEnemy.transform.parent = this.transform;
     }
 
@@ -78,8 +83,9 @@ public class EnemySpawner : MonoBehaviour
     {
         for (int i = 0; i < enemy_count; i++)
         {
-            GameObject e = Instantiate(enemy_prefab, player.transform.position + new Vector3(10.0f * i, 100.0f), Quaternion.identity);
+            GameObject e = Instantiate(enemy_prefabs[Random.Range(0, enemy_prefabs.Count)], player.transform.position + new Vector3(10.0f * i, 100.0f), Quaternion.identity);
             e.transform.parent = this.transform;
         }
     }
 }
+

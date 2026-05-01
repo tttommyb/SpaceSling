@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: -5046300392109078275}
   - component: {fileID: 92372746828843749}
   - component: {fileID: 3051329505156298491}
+  - component: {fileID: -9060777663955924491}
   m_Layer: 9
   m_Name: Small_Shooter
   m_TagString: Untagged
@@ -134,7 +135,6 @@ MonoBehaviour:
   target: {fileID: 0}
   move_speed: 20
   default_turn_speed: 90
-  asteroid_clearance: 5
 --- !u!60 &4443224974646588610
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -165,7 +165,7 @@ PolygonCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -316,3 +316,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-9060777663955924491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5719713869691165226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e470fe9f4fc6c948a1eac8131a89021, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  asteroid_clearance: 6
+  avoid_player: 1
