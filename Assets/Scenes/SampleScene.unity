@@ -292,7 +292,7 @@ MonoBehaviour:
   progress_text: {fileID: 186250554}
   progress_bar: {fileID: 1465857530}
   player: {fileID: 2132691668}
-  enemyUI: {fileID: 759361312}
+  enemy_UI: {fileID: 759361312}
 --- !u!4 &267459365
 Transform:
   m_ObjectHideFlags: 0
@@ -588,7 +588,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 759361306}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -631,10 +631,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee07f29288ade784abc953dbd4f572f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rowPrefab: {fileID: 6533661101638232058, guid: 84fe0255a877e604299c06dbedfa5670, type: 3}
-  iconPrefab: {fileID: 8491584980819116602, guid: 03606d482874d224db1faad840e0d723, type: 3}
+  row_prefab: {fileID: 6533661101638232058, guid: 84fe0255a877e604299c06dbedfa5670, type: 3}
+  icon_prefab: {fileID: 8491584980819116602, guid: 03606d482874d224db1faad840e0d723, type: 3}
   container: {fileID: 759361307}
-  maxIconsPerRow: 5
+  max_icons_per_row: 5
 --- !u!114 &759361313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1010,7 +1010,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1001428532
 MonoBehaviour:
   m_ObjectHideFlags: 0

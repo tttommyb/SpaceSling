@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: -9060777663955924491}
   m_Layer: 9
   m_Name: Small_Shooter
-  m_TagString: Untagged
+  m_TagString: Small Shooter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
