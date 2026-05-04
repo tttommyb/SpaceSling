@@ -13,6 +13,11 @@ public class Health : MonoBehaviour
     [SerializeField] int max_lives = 3;
     int lives;
     SpriteRenderer sr;
+    bool use_life = false;
+    Vector2 life_displacement;
+    float elapsed_time = 0.0f;
+    float translation_time = 10.0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +28,6 @@ public class Health : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
     }
 
     public void RemoveLife()
@@ -34,12 +38,10 @@ public class Health : MonoBehaviour
         {
             if (gameObject.CompareTag("Player") || gameObject.layer == LayerMask.NameToLayer("Player"))
             {
-                // Reload the level instantly
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
             else
             {
-                // If it's an enemy, just deactivate them
                 Instantiate(explosion, transform.position, Quaternion.identity);
                 gameObject.SetActive(false);
             }
@@ -52,14 +54,16 @@ public class Health : MonoBehaviour
     
     public void AddLife()
     {
-        if(lives_icons.Count > 0) 
-        {
-            lives_icons[lives].enabled = true;
-        }
+
         if(lives < max_lives)
         {
-            lives++; 
+            if(lives_icons.Count > 0) 
+            {
+                lives_icons[lives].enabled = true;
+            }
+            lives++;
         }
+
 
 
     }

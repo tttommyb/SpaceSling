@@ -49,7 +49,7 @@ public class EnemyHomingMovement : MonoBehaviour
         Debug.Log("HIT!");
         if (((1 << other.gameObject.layer) & obstructor_layers) != 0)
         {
-            gameObject.SetActive(false);
+            gameObject.GetComponent<Health>().RemoveLife();
             if (((1 << other.gameObject.layer) & target_layers) != 0)
             {
                 other.gameObject.GetComponent<Health>().RemoveLife();

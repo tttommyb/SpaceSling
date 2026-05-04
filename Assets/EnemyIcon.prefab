@@ -255,3 +255,6 @@ MonoBehaviour:
   - name: Small Homing
     sprite: {fileID: -766203902162372963, guid: 4f7c3ac543b1cb044b95f8e2e40eb386, type: 3}
     material: {fileID: 2100000, guid: f3477d30c74edc6449f77b162b2fe0a5, type: 2}
+  - name: Small Scout
+    sprite: {fileID: 21300000, guid: 58d0aec1b929aa3409f92146862633f5, type: 3}
+    material: {fileID: 2100000, guid: 20140618772b56a43baec82fefcd5d97, type: 2}

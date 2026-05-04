@@ -36,7 +36,6 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-            Debug.Log("HIT!");
         if (((1 << other.gameObject.layer) & obstructor_layers) != 0)
         {
             Destroy(this.gameObject);

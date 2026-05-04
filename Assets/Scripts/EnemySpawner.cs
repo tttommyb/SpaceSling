@@ -10,8 +10,6 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] List<GameObject> enemy_prefabs = new List<GameObject>();
     [SerializeField] int enemy_count = 1;
     [SerializeField] TMP_Text stats_text;
-    [SerializeField] TMP_Text progress_text;
-    [SerializeField] Scrollbar progress_bar;
     [SerializeField] GameObject player;
     [SerializeField] DynamicEnemyUI enemy_UI;
 
@@ -53,14 +51,8 @@ public class EnemySpawner : MonoBehaviour
 
         }
 
-        // UI Updates
-        int remaining = enemy_count - current_inactive;
-        progress_bar.size = (float)remaining / enemy_count;
-        progress_text.text = $"REMAINING: {remaining}";
-        stats_text.text = $"Kills: {kills}\nWave: {wave}";
-
         // Wave Reset Logic
-        if (remaining <= 0)
+        if (current_inactive == enemy_count)
         {
             NextWave();
         }
@@ -72,7 +64,7 @@ public class EnemySpawner : MonoBehaviour
         enemy_count++;
         last_inactive_count = 0; // Reset this so the new wave starts fresh
 
-        if (wave % 5 == 0) player.GetComponent<Health>()?.AddLife();
+        if (wave % 2 == 0) player.GetComponent<Health>()?.AddLife();
 
         // Reactivate and reposition old enemies
         int i = 0;
