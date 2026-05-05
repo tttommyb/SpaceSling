@@ -29,10 +29,6 @@ public class EnemyShooterMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-
-        // 3. Combine them (Weighted)
-        // 1.0f weight for chasing, 1.5f for separation (don't hit friends!)
-
         Vector2 boid_dir = Vector2.zero;
         if (boid.enabled) 
         {

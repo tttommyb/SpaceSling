@@ -6,7 +6,8 @@ TagManager:
   tags:
   - Small Shooter
   - Small Homing
-  - Small Scout
+  - Small Easer
+  - Small Trapper
   layers:
   - Default
   - TransparentFX
